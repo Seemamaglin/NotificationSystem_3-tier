@@ -12,3 +12,4 @@
 /Users/seemamaglin/Documents/NotificationSystem_3-tier/obj/Debug/net10.0/NotificationSystem_3-tier.pdb
 /Users/seemamaglin/Documents/NotificationSystem_3-tier/obj/Debug/net10.0/NotificationSystem_3-tier.genruntimeconfig.cache
 /Users/seemamaglin/Documents/NotificationSystem_3-tier/obj/Debug/net10.0/ref/NotificationSystem_3-tier.dll
+/Users/seemamaglin/Documents/NotificationSystem_3-tier/obj/Debug/net10.0/NotificationSystem_3-tier.sourcelink.json
