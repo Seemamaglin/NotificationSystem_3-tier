@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "yssbhH6Nd6s=",
+  "dgSpecHash": "eRQRa1Nh9zA=",
   "success": true,
-  "projectFilePath": "/Users/seemamaglin/Documents/NotificationSystem_3-tier/NotificationSystem_3-tier.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/seemamaglin/Documents/NotificationSystem/NotificationSystem_3-tier/NotificationSystem_3-tier.csproj",
+  "expectedPackageFiles": [
+    "/Users/seemamaglin/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/seemamaglin/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "/Users/seemamaglin/.nuget/packages/npgsql/8.0.9/npgsql.8.0.9.nupkg.sha512"
+  ],
   "logs": []
 }
