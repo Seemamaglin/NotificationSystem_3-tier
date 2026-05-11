@@ -1,4 +1,4 @@
-namespace Notification_System_CRUD.Models
+namespace NotificationSystem_3_tier.Models
 {
     public class Notification
     {   

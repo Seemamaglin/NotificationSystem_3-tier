@@ -1,8 +1,8 @@
-using Notification_System_CRUD.Models;
-using Notification_System_CRUD.Interfaces;
+using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Interfaces;
 using System.Reflection.Metadata;
 
-namespace Notification_System_CRUD.Services
+namespace NotificationSystem_3_tier.Services
 {
     public class UserService
     {

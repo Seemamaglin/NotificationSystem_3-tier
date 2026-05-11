@@ -1,8 +1,8 @@
 
-using Notification_System_CRUD.Models;
+using NotificationSystem_3_tier.Models;
 using System.Collections.Generic;
 
-namespace Notification_System_CRUD.Interfaces
+namespace NotificationSystem_3_tier.Interfaces
 {
     public interface IUserRepository
     {

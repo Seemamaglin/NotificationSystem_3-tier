@@ -1,8 +1,8 @@
-using Notification_System_CRUD.Models;
-using Notification_System_CRUD.Services;
-using static Notification_System_CRUD.Presentation.InputHelper;
+using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Services;
+using static NotificationSystem_3_tier.Presentation.InputHelper;
  
-namespace Notification_System_CRUD.Presentation
+namespace NotificationSystem_3_tier.Presentation
 {
     public static class UserMenu
     {

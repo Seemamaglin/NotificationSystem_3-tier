@@ -1,6 +1,6 @@
 
-using Notification_System_CRUD.Models;
-namespace Notification_System_CRUD.Interfaces
+using NotificationSystem_3_tier.Models;
+namespace NotificationSystem_3_tier.Interfaces
 {
     public interface INotification
     {
