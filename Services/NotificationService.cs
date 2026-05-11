@@ -59,7 +59,7 @@ namespace Notification_System_CRUD.Services
             };
             sender.Send(user, notification);
 
-            _repository.Save(notification);
+            _repository.Save(notification,user.Id);
         }
 
         public List<Notification> GetSentNotifications()
