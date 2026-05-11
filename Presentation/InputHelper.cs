@@ -1,4 +1,4 @@
-namespace Notification_System_CRUD.Presentation
+namespace NotificationSystem_3_tier.Presentation
 {
     public static class InputHelper
     {

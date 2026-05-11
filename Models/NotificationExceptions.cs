@@ -1,10 +1,10 @@
-using Notification_System_CRUD.Services;
-using Notification_System_CRUD.Interfaces;
+using NotificationSystem_3_tier.Services;
+using NotificationSystem_3_tier.Interfaces;
 
-namespace Notification_system_CRUD.Models
+namespace NNotificationSystem_3_tier.Models
 {
     
-}namespace Notification_System_CRUD.Models
+}namespace NotificationSystem_3_tier.Models
 {// Thrown when the notification message is null or empty
     public class EmptyMessageException : Exception
     {

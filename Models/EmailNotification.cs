@@ -1,6 +1,6 @@
-using Notification_System_CRUD.Models;
-using Notification_System_CRUD.Interfaces;
-namespace Notification_System_CRUD.Models
+using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Interfaces;
+namespace NotificationSystem_3_tier.Models
 {
     public class EmailNotification : INotification
     {

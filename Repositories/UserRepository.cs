@@ -1,8 +1,8 @@
-using Notification_System_CRUD.Models;
-using Notification_System_CRUD.Interfaces;
+using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Interfaces;
 using System.Net.Http.Headers;
 
-namespace Notification_System_CRUD.Repositories
+namespace NotificationSystem_3_tier.Repositories
 {
     public class UserRepository: IUserRepository
     {

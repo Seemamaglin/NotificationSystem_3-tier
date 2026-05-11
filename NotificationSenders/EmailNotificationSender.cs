@@ -1,7 +1,8 @@
-using Notification_System_CRUD.Interfaces;
-using Notification_System_CRUD.Models;
+using NotificationSystem_3_tier.Interfaces;
+using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Services;
 
-namespace Notification_System_CRUD.NotificationSenders
+namespace NotificationSystem_3_tier.NotificationSenders
 {
     // Presentation of an email being dispatched (console simulation).
     public class EmailNotificationSender : INotificationSender

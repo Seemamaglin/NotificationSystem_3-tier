@@ -1,8 +1,8 @@
-using Notification_System_CRUD.Models;
-using Notification_System_CRUD.Interfaces;
-using Notification_System_CRUD.Repositories;
+using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Interfaces;
+using NotificationSystem_3_tier.Repositories;
 
-namespace Notification_System_CRUD.Interfaces
+namespace NotificationSystem_3_tier.Interfaces
 {
     public interface INotificationSender
     {

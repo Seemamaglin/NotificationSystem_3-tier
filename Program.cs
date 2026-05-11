@@ -1,8 +1,8 @@
-﻿using Notification_System_CRUD.Models;
-using Notification_System_CRUD.Interfaces;
-using Notification_System_CRUD.Repositories;
-using Notification_System_CRUD.Services;
-using Notification_System_CRUD.Presentation;
+﻿using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Interfaces;
+using NotificationSystem_3_tier.Repositories;
+using NotificationSystem_3_tier.Services;
+using NotificationSystem_3_tier.Presentation;
 
 class NotificationApp
 {

@@ -1,9 +1,9 @@
-using Notification_System_CRUD.Models;
-using Notification_System_CRUD.Interfaces;
-using Notification_System_CRUD.Repositories;
-using Notification_System_CRUD.NotificationSenders;
+using NotificationSystem_3_tier.Models;
+using NotificationSystem_3_tier.Interfaces;
+using NotificationSystem_3_tier.Repositories;
+using NotificationSystem_3_tier.NotificationSenders;
 
-namespace Notification_System_CRUD.Services
+namespace NotificationSystem_3_tier.Services
 {
     public class NotificationService
     {
