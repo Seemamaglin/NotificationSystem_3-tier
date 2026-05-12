@@ -13,7 +13,7 @@ namespace NotificationSystem_3_tier.Repositories
             connection = new NpgsqlConnection(connectionString);
         }
 
-        // ── Save a sent notification ──────────────────────────────────────
+        // Save a sent notification 
         public void Save(Notification n, int userId)
         {
             string sql = @"INSERT INTO notifications 
