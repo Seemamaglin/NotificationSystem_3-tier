@@ -11,6 +11,8 @@ namespace NotificationSystem_3_tier.Models
 
         public string RecipientContact {get; set;}
 
+        public int UserId {get; set; }
+        public User? User { get; set; }
         public Notification(int id, string message,string notificationType, DateTime sentDate, string status, 
                     string recipientName, string recipientContact)
         {

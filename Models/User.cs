@@ -6,6 +6,7 @@ public class User
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
 
+    public ICollection<Notification>? Notifications {get; set;}
     public User(int id, string name, string email, string phoneNumber)
     {
         Id = id;

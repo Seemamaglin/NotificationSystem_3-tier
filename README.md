@@ -39,3 +39,8 @@ The application features comprehensive error handling using custom exceptions to
 - **.NET** (Console Application)
 - **LINQ** (Language Integrated Query) for concise querying and data manipulation
 
+## EF Core
+
+- **Packages installed**:
+    - dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 10.0.1
+    - dotnet add package Microsoft.EntityFrameworkCore --version 10.0.0

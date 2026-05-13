@@ -1,101 +1,85 @@
 using NotificationSystem_3_tier.Models;
-using Npgsql;
+using NotificationSystem_3_tier.Interfaces;
+using NotificationSystem_3_tier.Contexts;
 
 namespace NotificationSystem_3_tier.Repositories
 {
-    public class NotificationRepository
+    public class UserRepository : IUserRepository
     {
-        string connectionString = "Host=localhost;Port=5433;Database=Notification_DB;Username=postgres;Password=Lovlin@2004";
-        NpgsqlConnection connection;
+        NotificationContext context;
 
-        public NotificationRepository()
+        public UserRepository()
         {
-            connection = new NpgsqlConnection(connectionString);
+            context=new NotificationContext();
         }
 
-        // Save a sent notification 
-        public void Save(Notification n, int userId)
+
+        //ADO : NpgsqlCommand with INSERT SQL +connection.Open/Close
+        //Ef Core : Add() marks state as added ->saveChanges() runs INSERT
+        public void Add(User user)
         {
-            string sql = @"INSERT INTO notifications 
-                                (message, notification_type, sent_date, status, recipient_name, recipient_contact, user_id)
-                           VALUES 
-                                (@message, @type, @sentDate, @status, @recipientName, @recipientContact, @userId)
-                           RETURNING id";
+            context.users.Add(user);
+            Console.WriteLine("State before SaveChanges: " + context.Entry<User>(user).State);
+            context.SaveChanges();
+            Console.WriteLine("State after SaveChanges: ");
+            Console.WriteLine("User added to database successfully!");
+        }
 
-            NpgsqlCommand command = new NpgsqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@message",          n.Message);
-            command.Parameters.AddWithValue("@type",             n.NotificationType);
-            command.Parameters.AddWithValue("@sentDate",         n.SentDate);
-            command.Parameters.AddWithValue("@status",           n.Status);
-            command.Parameters.AddWithValue("@recipientName",    n.RecipientName);
-            command.Parameters.AddWithValue("@recipientContact", n.RecipientContact);
-            command.Parameters.AddWithValue("@userId",           userId);
+        //ADO : SELECT query +NpgsqlDataReader +manual object construction
+        //EF core: ToList() ->EF core generates SELECT and maps rows to user object 
 
-            try
+        public List<User> GetAll()
+        {
+            return context.users.ToList();
+        }
+
+
+        //ADO: 
+        public User? GetById(int id)
+        {
+            return context.users.Find(id);
+        }
+
+
+        //ADO :  UPDATE SQL +parameters +ExecutionQuery
+        //EF Core: update() marks state as modified and then SaveChanges() executes
+        public void Update(User user)
+        {
+            User? existing = context.users.Find(user.Id);
+            if (existing != null)
             {
-                connection.Open();
-                object? result = command.ExecuteScalar();
-                if (result != null)
-                    n.Id = int.Parse(result.ToString()!);  
+                existing.Name = user.Name;
+                existing.Email = user.Email;
+                existing.PhoneNumber = user.PhoneNumber;
+
+                Console.WriteLine("State before SaveChanges: " + context.Entry<User>(existing).State);
+                context.SaveChanges();
+                Console.WriteLine("State after SaveChanges: " + context.Entry<User>(existing).State);
+                Console.WriteLine("User updated in database successfully!");
             }
-            catch (Exception ex)
+            else
             {
-                System.Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                connection?.Close();
+                Console.WriteLine("No user found with that ID.");
             }
         }
 
-        public List<Notification> GetAll()
+        //Delete by userId
+        //ADO : DELETE SQL + ExecuteNonQuery
+        //EF Core : Find the object first, then .Remove() ->Save changes()
+
+        public void Delete(int id)
         {
-            var notifications = new List<Notification>();
-
-            string sql = @"SELECT 
-                                n.id,
-                                n.message,
-                                n.notification_type,
-                                n.sent_date,
-                                n.status,
-                                n.recipient_name,
-                                n.recipient_contact,
-                                u.name  AS user_name,
-                                u.email AS user_email,
-                                u.phone AS user_phone
-                           FROM notifications n
-                           INNER JOIN users u ON n.user_id = u.id
-                           ORDER BY n.sent_date DESC";
-
-            NpgsqlCommand command = new NpgsqlCommand(sql, connection);
-
-            try
+            User? user=context.users.Find(id);
+            if(user!=null)
             {
-                connection.Open();
-                NpgsqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    notifications.Add(new Notification(
-                        reader.GetInt32(0),     // n.id
-                        reader.GetString(1),    // n.message
-                        reader.GetString(2),    // n.notification_type
-                        reader.GetDateTime(3),  // n.sent_date
-                        reader.GetString(4),    // n.status
-                        reader.GetString(5),    // n.recipient_name
-                        reader.GetString(6)     // n.recipient_contact
-                    ));
-                }
+                context.users.Remove(user);
+                context.SaveChanges();
+                Console.WriteLine("User deleted from database!");
             }
-            catch (Exception ex)
+            else
             {
-                System.Console.WriteLine(ex.Message);
+                Console.WriteLine("No user found with the ID.");
             }
-            finally
-            {
-                connection?.Close();
-            }
-
-            return notifications;  
         }
     }
-}
+} 

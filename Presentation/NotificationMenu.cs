@@ -18,7 +18,9 @@ namespace NotificationSystem_3_tier.Presentation
                     Console.WriteLine("1. Send Notification");
                     Console.WriteLine("2. View Notifications");
                     Console.WriteLine("3. Back to Main Menu");
-                    Console.WriteLine("Enter your choice: ");
+                    Console.WriteLine();
+                    Console.Write("Enter your choice: ");
+                    Console.WriteLine();
 
 
                     int choice=Convert.ToInt32(Console.ReadLine());
@@ -37,6 +39,7 @@ namespace NotificationSystem_3_tier.Presentation
                                 }
 
                                 Console.WriteLine("Select a user to send notification:");
+                                Console.WriteLine();
                                 // foreach (var user in users)
                                 // {
                                 //     Console.WriteLine($"ID: {user.Id}, Name: {user.Name}, Email: {user.Email}, Phone: {user.PhoneNumber}" );
@@ -44,6 +47,7 @@ namespace NotificationSystem_3_tier.Presentation
                                 //replace these lines with LINQ query
 
                                 users.ForEach(u => Console.WriteLine($"[{u.Id}] {u.Name} | Email: {u.Email} | Phone: {u.PhoneNumber}"));
+                                Console.WriteLine();
 
                                 int userId=ReadPositiveInt("Enter User ID: ");
 
@@ -56,7 +60,9 @@ namespace NotificationSystem_3_tier.Presentation
                                 Console.WriteLine("Select notification type:");
                                 Console.WriteLine("1. Email Notification");
                                 Console.WriteLine("2. SMS Notification");
-                                Console.WriteLine("Enter your choice: ");
+                                Console.WriteLine();
+                                Console.Write("Enter your choice: ");
+                                Console.WriteLine();
 
                                 int typeChoice=Convert.ToInt32(Console.ReadLine());
 
@@ -91,9 +97,10 @@ namespace NotificationSystem_3_tier.Presentation
                                         $"Recipient Name: {n.RecipientName}\n" +
                                         $"Recipient Contact: {n.RecipientContact}\n" +
                                         $"Status: {n.Status}\n" +
-                                        $"Sent Date: {n.SentDate:dd-MM-yyyy HH:mm:ss}"
+                                        $"Sent Date: {n.SentDate:dd-MM-yyyy HH:mm:ss}"+
+                                        "\n"
                                     ));
-                                break;
+                                break;   
                             }
 
                             default:
