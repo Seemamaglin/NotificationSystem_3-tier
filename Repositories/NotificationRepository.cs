@@ -1,42 +1,46 @@
 using NotificationSystem_3_tier.Models;
-using NotificationSystem_3_tier.Interfaces;
 using Npgsql;
 
 namespace NotificationSystem_3_tier.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class NotificationRepository
     {
         string connectionString = "Host=localhost;Port=5433;Database=Notification_DB;Username=postgres;Password=Lovlin@2004";
         NpgsqlConnection connection;
 
-        public UserRepository()
+        public NotificationRepository()
         {
             connection = new NpgsqlConnection(connectionString);
         }
 
-        public void Add(User user)
+        // Save a sent notification 
+        public void Save(Notification n, int userId)
         {
-            string sql = "INSERT INTO users (id, name, email, phone) VALUES (@id, @name, @email, @phone)";
+            string sql = @"INSERT INTO notifications 
+                                (message, notification_type, sent_date, status, recipient_name, recipient_contact, user_id)
+                           VALUES 
+                                (@message, @type, @sentDate, @status, @recipientName, @recipientContact, @userId)
+                           RETURNING id";
+
             NpgsqlCommand command = new NpgsqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@id",    user.Id);
-            command.Parameters.AddWithValue("@name",  user.Name);
-            command.Parameters.AddWithValue("@email", user.Email);
-            command.Parameters.AddWithValue("@phone", user.PhoneNumber);
+            command.Parameters.AddWithValue("@message",          n.Message);
+            command.Parameters.AddWithValue("@type",             n.NotificationType);
+            command.Parameters.AddWithValue("@sentDate",         n.SentDate);
+            command.Parameters.AddWithValue("@status",           n.Status);
+            command.Parameters.AddWithValue("@recipientName",    n.RecipientName);
+            command.Parameters.AddWithValue("@recipientContact", n.RecipientContact);
+            command.Parameters.AddWithValue("@userId",           userId);
 
             try
             {
                 connection.Open();
-                int result = command.ExecuteNonQuery();
-                if (result > 0)
-                    Console.WriteLine("User added to database successfully.");
-            }
-            catch (NpgsqlException ne)
-            {
-                throw new Exception("Database error while adding user: " + ne.Message);
+                object? result = command.ExecuteScalar();
+                if (result != null)
+                    n.Id = int.Parse(result.ToString()!);  
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                System.Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -44,10 +48,25 @@ namespace NotificationSystem_3_tier.Repositories
             }
         }
 
-        public List<User> GetAll()
+        public List<Notification> GetAll()
         {
-            var users  = new List<User>();
-            string sql = "SELECT id, name, email, phone FROM users";
+            var notifications = new List<Notification>();
+
+            string sql = @"SELECT 
+                                n.id,
+                                n.message,
+                                n.notification_type,
+                                n.sent_date,
+                                n.status,
+                                n.recipient_name,
+                                n.recipient_contact,
+                                u.name  AS user_name,
+                                u.email AS user_email,
+                                u.phone AS user_phone
+                           FROM notifications n
+                           INNER JOIN users u ON n.user_id = u.id
+                           ORDER BY n.sent_date DESC";
+
             NpgsqlCommand command = new NpgsqlCommand(sql, connection);
 
             try
@@ -56,110 +75,27 @@ namespace NotificationSystem_3_tier.Repositories
                 NpgsqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    users.Add(new User(
-                        reader.GetInt32(0),
-                        reader.GetString(1),
-                        reader.GetString(2),
-                        reader.GetString(3)
+                    notifications.Add(new Notification(
+                        reader.GetInt32(0),     // n.id
+                        reader.GetString(1),    // n.message
+                        reader.GetString(2),    // n.notification_type
+                        reader.GetDateTime(3),  // n.sent_date
+                        reader.GetString(4),    // n.status
+                        reader.GetString(5),    // n.recipient_name
+                        reader.GetString(6)     // n.recipient_contact
                     ));
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                System.Console.WriteLine(ex.Message);
             }
             finally
             {
                 connection?.Close();
             }
 
-            return users;
-        }
-
-        public User? GetById(int id)
-        {
-            User? user = null;
-            string sql = "SELECT id, name, email, phone FROM users WHERE id = @id";
-            NpgsqlCommand command = new NpgsqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@id", id);
-
-            try
-            {
-                connection.Open();
-                NpgsqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    user = new User(
-                        reader.GetInt32(0),
-                        reader.GetString(1),
-                        reader.GetString(2),
-                        reader.GetString(3)
-                    );
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                connection?.Close();
-            }
-
-            return user;
-        }
-
-        public void Update(User user)
-        {
-            string sql = "UPDATE users SET name = @name, email = @email, phone = @phone WHERE id = @id";
-            NpgsqlCommand command = new NpgsqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@name",  user.Name);
-            command.Parameters.AddWithValue("@email", user.Email);
-            command.Parameters.AddWithValue("@phone", user.PhoneNumber);
-            command.Parameters.AddWithValue("@id",    user.Id);
-
-            try
-            {
-                connection.Open();
-                int result = command.ExecuteNonQuery();
-                if (result > 0)
-                    Console.WriteLine("User updated in database successfully.");
-                else
-                    Console.WriteLine("No user found with that ID.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                connection?.Close();
-            }
-        }
-
-        public void Delete(int id)
-        {
-            string sql = "DELETE FROM users WHERE id = @id";
-            NpgsqlCommand command = new NpgsqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@id", id);
-
-            try
-            {
-                connection.Open();
-                int result = command.ExecuteNonQuery();
-                if (result > 0)
-                    Console.WriteLine("User deleted from database successfully.");
-                else
-                    Console.WriteLine("No user found with that ID.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                connection?.Close();
-            }
+            return notifications;  
         }
     }
 }
